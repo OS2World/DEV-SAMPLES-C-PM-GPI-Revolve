@@ -3,9 +3,7 @@
 ;----------------------------------------------
 
 NAME            REVOLVE   WINDOWAPI
-DESCRIPTION     'Demonstrates GPI Transforms (C) Charles Petzold, 1988'
-PROTMODE
+DESCRIPTION     '@#OS2World:1.01#@##1## 29 Apr 2023 20:00:00     ARCAOS-507::::::v1.01@@Demonstrates GPI Transforms'
 HEAPSIZE        1024
 STACKSIZE       8192
 EXPORTS         ClientWndProc
-

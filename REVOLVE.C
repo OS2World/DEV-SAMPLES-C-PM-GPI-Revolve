@@ -19,22 +19,22 @@ int main (void)
      HMQ    hmq ;
      HWND   hwndFrame, hwndClient ;
      QMSG   qmsg ;
-     static ULONG flFrameFlags = FCF_TITLEBAR      | FCF_SYSMENU | 
+     static ULONG flFrameFlags = FCF_TITLEBAR      | FCF_SYSMENU |
                                  FCF_SIZEBORDER    | FCF_MINMAX  |
                                  FCF_SHELLPOSITION | FCF_TASKLIST ;
 
      hab = WinInitialize (0) ;
      hmq = WinCreateMsgQueue (hab, 0) ;
 
-     WinRegisterClass (hab, szClientClass, ClientWndProc, CS_SIZEREDRAW |
+     WinRegisterClass (hab, (PCSZ) szClientClass, (PFNWP) ClientWndProc, CS_SIZEREDRAW |
                                                           CS_SYNCPAINT, 0) ;
 
      hwndFrame = WinCreateStdWindow (HWND_DESKTOP, WS_VISIBLE,
                     &flFrameFlags,
-                    szClientClass, " GPI Transform Demo",
-                    0L, NULL, 0, &hwndClient) ;
+                    (PCSZ) szClientClass, (PCSZ) " GPI Transform Demo",
+                    0L, 0, 0, &hwndClient) ;
 
-     while (WinGetMsg (hab, &qmsg, NULL, 0, 0) )
+     while (WinGetMsg (hab, &qmsg, 0, 0, 0) )
           WinDispatchMsg (hab, &qmsg) ;
 
      WinDestroyWindow (hwndFrame) ;
@@ -73,15 +73,15 @@ VOID DrawFigure (HPS hps)
      {
      static POINTL aptlFigure [] =
                {
-                -20,  100,  20,  100,  20,   90,   10,   90,   10,   85,
-                 20,   85,  20,   75,  35,   75,   35,   70,   20,   70,
-                 20,   65,   5,   65,   5,   60,   20,   60,   10,   50,
-                 10,   40,  25,   40,  85,  100,  100,  100,  100,   85,
-                 25,   10,  25,  -25,  50,  -85,   75,  -85,   75, -100,
-                 35, -100,   0,  -15, -35, -100,  -75, -100,  -75,  -85,
-                -50,  -85, -25,  -25, -25,   10,  -85,  -50, -100,  -50,
-               -100,  -35, -25,   40, -10,   40,  -10,   50,  -20,   60,
-                -20,  100
+                {-20,  100},  {20,  100},  {20,   90},   {10,   90},   {10,   85},
+                 {20,   85},  {20,   75},  {35,   75},   {35,   70},   {20,   70},
+                 {20,   65},   {5,   65},   {5,   60},   {20,   60},   {10,   50},
+                 {10,   40},  {25,   40},  {85,  100},  {100,  100},  {100,   85},
+                 {25,   10},  {25,  -25},  {50,  -85},   {75,  -85},   {75, -100},
+                 {35, -100},   {0,  -15}, {-35, -100},  {-75, -100},  {-75,  -85},
+                {-50,  -85}, {-25,  -25}, {-25,   10},  {-85,  -50}, {-100,  -50},
+               {-100,  -35}, {-25,   40}, {-10,   40},  {-10,   50},  {-20,   60},
+                {-20,  100}
                } ;
 
      GpiMove (hps, aptlFigure) ;
@@ -91,7 +91,7 @@ VOID DrawFigure (HPS hps)
      }
 
 MRESULT EXPENTRY ClientWndProc (HWND hwnd, USHORT msg, MPARAM mp1,
-                                                       MPARAM mp2) 
+                                                       MPARAM mp2)
      {
      static double dScaler = 1.1, dYScaleAngle = 0.0,
                    dYScaleAngleInc = 0.25 ;
@@ -107,7 +107,7 @@ MRESULT EXPENTRY ClientWndProc (HWND hwnd, USHORT msg, MPARAM mp1,
           {
           case WM_CREATE:
                hdc = WinOpenWindowDC (hwnd) ;
-               
+
                sizl.cx = sizl.cy = 0 ;
 
                hps = GpiCreatePS (hab, hdc, &sizl, PU_LOENGLISH |
@@ -131,14 +131,14 @@ MRESULT EXPENTRY ClientWndProc (HWND hwnd, USHORT msg, MPARAM mp1,
                matlf.lM31 = ptl.x ;
                matlf.lM32 = ptl.y ;
 
-               GpiSetDefaultViewMatrix (hps, 9L, &matlf, 
+               GpiSetDefaultViewMatrix (hps, 9L, &matlf,
                                              TRANSFORM_REPLACE) ;
                break ;
 
           case WM_TIMER:
                SetModelTransform (hps, fxYScale, fxAngle, fxScale) ;
                DrawFigure (hps) ;
-             
+
                fxYScale = (FIXED) (65535 * cos (dYScaleAngle)) ;
 
                if ((dYScaleAngle += dYScaleAngleInc) > 6.283)
@@ -176,4 +176,3 @@ MRESULT EXPENTRY ClientWndProc (HWND hwnd, USHORT msg, MPARAM mp1,
           }
      return 0 ;
      }
-
