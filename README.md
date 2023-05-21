@@ -1,5 +1,5 @@
 # DEV-SAMPLES-GPI-Revolve
-Demonstrates GPI Transforms.
+Demonstrates GPI Transforms. It shows a graphic and makes it skew (distort/asymmetry) while it moves in a PM window.
 
 ![Revolve ScreenShot](/wiki/Revolve_001.png)
 
