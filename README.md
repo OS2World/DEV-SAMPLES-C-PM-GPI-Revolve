@@ -1,6 +1,8 @@
 # DEV-SAMPLES-GPI-Revolve
 Demonstrates GPI Transforms.
 
+![Revolve ScreenShot](/wiki/Revolve_001.png)
+
 ## LICENSE
 * BSD 3-Clauses
 
